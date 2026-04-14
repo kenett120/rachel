@@ -15,7 +15,6 @@ body {
     animation: fondo 10s ease infinite;
 }
 
-/* fondo animado */
 @keyframes fondo {
     0% {background-position: 0% 50%;}
     50% {background-position: 100% 50%;}
@@ -34,15 +33,9 @@ body {
 }
 
 @keyframes float {
-    0% {
-        transform: translateY(100vh) scale(0.5);
-        opacity: 0;
-    }
+    0% { transform: translateY(100vh) scale(0.5); opacity: 0; }
     50% { opacity: 1; }
-    100% {
-        transform: translateY(-10vh) scale(1.3);
-        opacity: 0;
-    }
+    100% { transform: translateY(-10vh) scale(1.3); opacity: 0; }
 }
 
 /* pétalos */
@@ -60,15 +53,9 @@ body {
 }
 
 @keyframes fall {
-    0% {
-        transform: translateY(-10vh) rotate(0deg);
-        opacity: 0;
-    }
+    0% { transform: translateY(-10vh) rotate(0deg); opacity: 0; }
     20% { opacity: 1; }
-    100% {
-        transform: translateY(110vh) rotate(360deg);
-        opacity: 0;
-    }
+    100% { transform: translateY(110vh) rotate(360deg); opacity: 0; }
 }
 
 /* contenedor */
@@ -107,11 +94,11 @@ button {
 }
 
 .hidden { display: none; }
-
 canvas { display: block; }
 
 </style>
 </head>
+
 <body>
 
 <div class="container">
@@ -142,9 +129,15 @@ canvas { display: block; }
 
 </div>
 
-<audio id="musica" loop>
-    <source src="https://www.bensound.com/bensound-music/bensound-love.mp3" type="audio/mp3">
-</audio>
+<!-- 🎵 YOUTUBE -->
+<iframe 
+    id="musicPlayer"
+    width="0" 
+    height="0"
+    src="https://www.youtube.com/embed/lY5V4hSLWY8?autoplay=1&loop=1&playlist=lY5V4hSLWY8"
+    frameborder="0"
+    allow="autoplay">
+</iframe>
 
 <script>
 function siguiente(num) {
@@ -152,15 +145,19 @@ function siguiente(num) {
     document.getElementById("pantalla"+(num+1)).classList.remove("hidden");
 }
 
+/* 🔊 FORZAR MÚSICA */
+document.body.addEventListener("click", () => {
+    const iframe = document.getElementById("musicPlayer");
+    iframe.src = iframe.src;
+}, { once: true });
+
 /* corazones */
 function crearCorazon() {
     const heart = document.createElement("div");
     heart.className = "heart";
     heart.innerHTML = "❤";
-
     heart.style.left = Math.random() * 100 + "vw";
     heart.style.fontSize = (12 + Math.random() * 20) + "px";
-
     document.body.appendChild(heart);
     setTimeout(() => heart.remove(), 6000);
 }
@@ -170,11 +167,9 @@ setInterval(crearCorazon, 200);
 function crearPetalo() {
     const petal = document.createElement("div");
     petal.className = "petal";
-
     petal.style.left = Math.random() * 100 + "vw";
     petal.style.animationDuration = (6 + Math.random() * 4) + "s";
     petal.style.transform = `rotate(${Math.random()*360}deg)`;
-
     document.body.appendChild(petal);
     setTimeout(() => petal.remove(), 8000);
 }
@@ -187,7 +182,6 @@ function sunflower(ctx,x,y,scale){
         let r = 60*scale + Math.random()*60*scale;
         let px = x + Math.cos(angle)*r;
         let py = y + Math.sin(angle)*r;
-
         ctx.beginPath();
         ctx.fillStyle = `hsl(${50+Math.random()*10},100%,${55+Math.random()*10}%)`;
         ctx.ellipse(px,py,20*scale,7*scale,angle,0,Math.PI*2);
@@ -204,7 +198,6 @@ function sunflower(ctx,x,y,scale){
         let r = Math.random()*40*scale;
         let px = x + Math.cos(angle)*r;
         let py = y + Math.sin(angle)*r;
-
         ctx.beginPath();
         ctx.fillStyle = `hsl(40,60%,${35+Math.random()*25}%)`;
         ctx.arc(px,py,3.5*scale,0,Math.PI*2);
@@ -249,12 +242,6 @@ function final() {
     ctx.fillText("Este ramo es para ti", canvas.width/2, 80);
     ctx.fillText("Te amo", canvas.width/2, 120);
 }
-
-/* música */
-window.addEventListener("click", () => {
-    const audio = document.getElementById("musica");
-    audio.play();
-}, { once: true });
 </script>
 
 </body>
